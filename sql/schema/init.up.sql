@@ -1,0 +1,122 @@
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY NOT NULL,
+    uid VARCHAR(255) NOT NULL,
+    tele_id BIGINT NOT NULL,
+    tele_name VARCHAR(255) NOT NULL,
+	 minim_price NUMERIC(10,2) NOT NULL,
+	 is_block BOOLEAN NOT NULL DEFAULT 'f',
+    created TIMESTAMP NOT NULL DEFAULT now(),
+	 currency VARCHAR(255),
+	 lang VARCHAR(255),
+    is_terms BOOLEAN NOT NULL DEFAULT 'f'
+);
+
+CREATE TABLE IF NOT EXISTS users_base(
+    id SERIAL PRIMARY KEY NOT NULL,
+    tele_id BIGINT NOT NULL,
+    balance NUMERIC(10,2) DEFAULT 0,
+	 total_earned NUMERIC(10,2) DEFAULT 0,
+	 curr_luck VARCHAR(255) NOT NULL DEFAULT 'win',
+    conclusion NUMERIC(10,2) DEFAULT 0,
+	 is_premium BOOLEAN NOT NULL DEFAULT 'f',
+    verification BOOLEAN NOT NULL DEFAULT 'f'
+);
+
+CREATE TABLE IF NOT EXISTS users_payment(
+	id SERIAL PRIMARY KEY NOT NULL,
+	tele_id BIGINT NOT NULL,
+	buy_nft TEXT[] NOT NULL DEFAULT '{}',
+	sell_nft TEXT[] NOT NULL DEFAULT '{}'
+);
+
+CREATE TABLE IF NOT EXISTS users_trading(
+	id SERIAL PRIMARY KEY NOT NULL,
+	tele_id BIGINT NOT NULL,
+	choose_asset VARCHAR(255),
+	choose_price NUMERIC(10,2) DEFAULT 0,
+	investment_price NUMERIC(10,2) DEFAULT 0,
+	movement_price VARCHAR(255) NOT NULL DEFAULT 'up',
+	waiting_time_sec INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS users_payment_event(
+	id SERIAL PRIMARY KEY NOT NULL,
+	uid VARCHAR(255) NOT NULL,
+	name_token VARCHAR(255) NOT NULL,
+	price NUMERIC(10,2) NOT NULL,
+	tele_id BIGINT NOT NULL,
+	is_finished BOOLEAN NOT NULL DEFAULT 'f'
+);
+
+CREATE TABLE IF NOT EXISTS users_withdraw_event (
+	id SERIAL PRIMARY KEY NOT NULL,
+	tele_id BIGINT NOT NULL,
+	uid VARCHAR(255) NOT NULL,
+	price NUMERIC(10,2) NOT NULL,
+	is_finished BOOLEAN NOT NULL DEFAULT 'f'
+);
+
+CREATE TABLE IF NOT EXISTS referral(
+	id SERIAL PRIMARY KEY NOT NULL,
+	tele_id BIGINT NOT NULL,
+	tele_name VARCHAR(255) NOT NULL,
+	created TIMESTAMP NOT NULL DEFAULT now(),
+	admin_referral BIGINT NOT NULL
+);
+
+-- movement_price - up, down, not change
+
+CREATE TABLE IF NOT EXISTS depots(
+	id SERIAL PRIMARY KEY NOT NULL,
+	mammoth_id BIGINT NOT NULL,
+	mammoth_username VARCHAR(255) NOT NULL,
+	worker_id BIGINT NOT NULL,
+	worker_username VARCHAR(255) NOT NULL,
+	status BOOLEAN NOT NULL DEFAULT 't',
+	created TIMESTAMP NOT NULL DEFAULT now(),
+	amount NUMERIC(6,2) NOT NULL,
+	is_show_name BOOLEAN NOT NULL DEFAULT 't'
+);
+
+CREATE TABLE IF NOT EXISTS captcha(
+	id SERIAL PRIMARY KEY NOT NULL,
+	value BIGINT NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS exchange_rates(
+	id SERIAL PRIMARY KEY NOT NULL,
+	name VARCHAR(255) NOT NULL,
+	price FLOAT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS collections (
+	id SERIAL PRIMARY KEY NOT NULL,
+	name VARCHAR(255) NOT NULL,
+	count INTEGER NOT NULL DEFAULT 0,
+	collection_uid VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS tokens (
+	id SERIAL PRIMARY KEY NOT NULL,
+	name VARCHAR(255) NOT NULL,
+	price NUMERIC(10,2) DEFAULT 0,
+	author VARCHAR(255) NOT NULL,
+	blockchain VARCHAR(255) NOT NULL,
+	uid_collection VARCHAR(255) NOT NULL,
+	token_uid VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS admins(
+    id SERIAL PRIMARY KEY NOT NULL,
+    tele_id BIGINT NOT NULL,
+	 minim_price NUMERIC(10,2) DEFAULT 20,
+	 count_referrals BIGINT NOT NULL DEFAULT 0,
+	 is_show_name BOOLEAN NOT NULL DEFAULT 't'
+);
+
+CREATE TABLE IF NOT EXISTS payments (
+    id SERIAL PRIMARY KEY NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    value VARCHAR(255) NOT NULL
+);
